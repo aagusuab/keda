@@ -3,20 +3,26 @@ package builtin
 import (
 	"fmt"
 	"reflect"
+	"time"
+
+	"github.com/expr-lang/expr/internal/deref"
 )
 
 var (
-	anyType     = reflect.TypeOf(new(any)).Elem()
-	integerType = reflect.TypeOf(0)
-	floatType   = reflect.TypeOf(float64(0))
-	arrayType   = reflect.TypeOf([]any{})
-	mapType     = reflect.TypeOf(map[any]any{})
+	anyType      = reflect.TypeOf(new(any)).Elem()
+	integerType  = reflect.TypeOf(0)
+	floatType    = reflect.TypeOf(float64(0))
+	arrayType    = reflect.TypeOf([]any{})
+	mapType      = reflect.TypeOf(map[any]any{})
+	timeType     = reflect.TypeOf(new(time.Time)).Elem()
+	locationType = reflect.TypeOf(new(time.Location))
 )
 
 func kind(t reflect.Type) reflect.Kind {
 	if t == nil {
 		return reflect.Invalid
 	}
+	t = deref.Type(t)
 	return t.Kind()
 }
 
